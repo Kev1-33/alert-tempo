@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Vérifier et notifier si Blanc, Rouge ou Inconnu
         run: |
-          REPONSE=$(curl -s https://api-couleur-tempo.fr)
+          REPONSE=$(curl -s https://www.api-couleur-tempo.fr/)
           CODE=$(echo $REPONSE | jq -r '.codeJour')
           DATE=$(echo $REPONSE | jq -r '.dateJour')
 
