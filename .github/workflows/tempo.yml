@@ -1,0 +1,36 @@
+name: Notif Tempo EDF (Blanc, Rouge & Inconnu)
+
+on:
+  schedule:
+    # 8h00 UTC = 9h00 heure de Paris en hiver (10h00 en été)
+    - cron: '00 8 * * *'
+  workflow_dispatch:
+
+jobs:
+  verifier-tempo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Vérifier et notifier si Blanc, Rouge ou Inconnu
+        run: |
+          REPONSE=$(curl -s https://api-couleur-tempo.fr)
+          CODE=$(echo $REPONSE | jq -r '.codeJour')
+          DATE=$(echo $REPONSE | jq -r '.dateJour')
+
+          if [ "$CODE" = "1" ]; then
+            echo "Jour BLEU : aucune notification envoyée."
+          elif [ "$CODE" = "2" ]; then
+            curl -H "Title: ⚠️ Tempo Demain ($DATE) : BLANC" \
+                 -H "Priority: high" \
+                 -d "Demain sera un jour BLANC ⚪." \
+                 https://ntfy.sh/Alert-TEMPO-fr00-kev
+          elif [ "$CODE" = "3" ]; then
+            curl -H "Title: 🚨 ALERTE Tempo Demain ($DATE) : ROUGE" \
+                 -H "Priority: urgent" \
+                 -d "Attention : demain sera un jour ROUGE 🔴 !" \
+                 https://ntfy.sh/Alert-TEMPO-fr00-kev
+          else
+            curl -H "Title: ❓ Tempo Demain ($DATE) : INCONNU" \
+                 -H "Priority: low" \
+                 -d "La couleur de demain n'est pas encore publiée par RTE." \
+                 https://ntfy.sh/Alert-TEMPO-fr00-kev
+          fi
