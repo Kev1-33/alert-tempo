@@ -2,8 +2,8 @@ name: Notif Tempo EDF (Blanc, Rouge & Inconnu)
 
 on:
   schedule:
-    # 8h00 UTC = 9h00 heure de Paris en hiver (10h00 en été)
-    - cron: '00 8 * * *'
+    # 8h06 UTC = 9h06 heure de Paris en hiver (10h00 en été)
+    - cron: '06 8 * * *'
   workflow_dispatch:
 
 jobs:
