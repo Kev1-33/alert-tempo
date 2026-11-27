@@ -27,7 +27,7 @@ jobs:
           elif [ "$CODE" = "3" ]; then
             curl -H "Title: 🚨 ALERTE Tempo Demain ($DATE) : ROUGE" \
                  -H "Priority: urgent" \
-                 -d "Attention : demain sera un jour ROUGE 🔴 !" \
+                 -d "Attention : demain sera un jour ROUGE 🔴 !!" \
                  https://ntfy.sh/Alert-TEMPO-fr00-kev
           else
             curl -H "Title: ❓ Tempo Demain ($DATE) : INCONNU" \
